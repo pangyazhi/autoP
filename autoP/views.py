@@ -1,10 +1,9 @@
 from datetime import datetime
-
 from flask import render_template, redirect, url_for, flash
-
-from User import load_user
+from flask_login import logout_user, login_required
+from User import load_user, User
 from autoP import app
-from forms import LoginForm
+from forms import LoginForm, RegistrationForm
 
 
 @app.route('/')
@@ -69,6 +68,22 @@ def login():
             #     return redirect(url_for('home'))
             # else:
             #     flash('wrong password')
-
-    flash(form.errors)
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('home'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email=form.email.data, password=form.password.data)
+        user.save()
+        flash('User is registered!')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
