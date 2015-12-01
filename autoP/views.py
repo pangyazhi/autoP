@@ -1,7 +1,9 @@
 from datetime import datetime
 from flask import render_template, redirect, url_for, flash
 from flask_login import logout_user, login_required
-from User import load_user, User
+from flask_wtf import csrf
+
+from user import load_user, User
 from autoP import app
 from forms import LoginForm, RegistrationForm
 
@@ -78,10 +80,14 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('home'))
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        if User.get_by(email=form.email.data):
+            flash('User already existing.')
+            return redirect(url_for('register'))
         user = User(email=form.email.data, password=form.password.data)
         user.save()
         flash('User is registered!')
