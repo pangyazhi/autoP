@@ -22,7 +22,8 @@ class RegistrationForm(Form):
 
     def generate_csrf_token(self, csrf_context):
         pass
-    # def validate_email(self, field):
-    #     from autoP.user import User
-    #     if User.get_by(email=field.data).first():
-    #         raise ValidationError('Email already registered.')
+
+    def validate_email(self, field):
+        from autoP.user import User
+        if User.get_by(email=field.data):
+            raise ValidationError('Email already registered.')
