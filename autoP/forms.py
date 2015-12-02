@@ -24,6 +24,13 @@ class RegistrationForm(Form):
         pass
 
     def validate_email(self, field):
-        from autoP.user import User
+        from autoP.tests import User
         if User.get_by(email=field.data):
             raise ValidationError('Email already registered.')
+
+
+class SearchForm(Form):
+    def generate_csrf_token(self, csrf_context):
+        pass
+    search = StringField('', validators={DataRequired(), Length(1, 128)})
+    submit = SubmitField('Find')

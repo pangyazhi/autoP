@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+  {% if error %}
+    <p class="error"><strong>Error:</strong>{{ error }}</p>
+  {% endif %}
+  <form class="form-inline" action="" method="post">
+
+    <br/>
+    <input type="search" name="search" value="{{ request.form.search }}" />
+    <input type="submit" value="Find" />
+    <br/>
+
+  </form>
+{% endblock %}

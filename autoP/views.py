@@ -1,11 +1,9 @@
 from datetime import datetime
 from flask import render_template, redirect, url_for, flash
 from flask_login import logout_user, login_required
-from flask_wtf import csrf
-
-from user import load_user, User
+from autoP.tests import User, load_user
 from autoP import app
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, SearchForm
 
 
 @app.route('/')
@@ -39,14 +37,24 @@ def about():
     )
 
 
-@app.route('/listUsers')
-def listUsers():
+@app.route('/show')
+def show():
     """Renders the listUsers page."""
     return render_template(
         'listUsers.html',
         title='List Users',
         message='These are the users in our system'
     )
+
+
+@app.route('/search', methods=['GET', 'POST'])
+#@login_required
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        # do some search here
+        app.logger.info(form.search.raw_data)
+    return render_template('search.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -63,7 +71,7 @@ def login():
             flash('We don\'t know you')
             return render_template('login.html', form=form)
         else:
-            return redirect(url_for('home'))
+            return redirect(url_for('search'))
             # if user.verify_password(form.password.raw_data):
             #     login_user(user)
             #     flash('Logged in successfully.')
