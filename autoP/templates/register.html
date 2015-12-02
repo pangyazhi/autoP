@@ -1,21 +1,15 @@
 {% extends "layout.html" %}
-{% block content %}
-  <h1>Register</h1>
-  {% if error %}
-    <p class=error><strong>Error:</strong> {{ error }}
-  {% endif %}
-  <form action="" method=post>
-    {{ form.csrf_token}}
-    <dl>
-      <dt>Email:
-      <dd><input type=text name=email value="{{
-          request.form.username }}">
-      <dt>Password:
-      <dd><input type=password name=password value="{{request.form.password}}">
-      <dt>Confirm Password:
-      <dd><input type=password name=password2 value="{{request.form.password2}}">
+{% import "bootstrap/wtf.html" as wtf %}
 
-    </dl>
-    <p><input type=submit value=Register></p>
-  </form>
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Register</h1>
+</div>
+<div>
+    <br/>
+    {{ wtf.quick_form(form) }}
+    <br/>
+</div>
 {% endblock %}
