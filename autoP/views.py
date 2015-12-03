@@ -2,9 +2,8 @@ from datetime import datetime
 from flask import render_template, redirect, url_for, flash
 from flask_login import logout_user, login_required
 from autoP.tests import User, load_user
-from autoP import app
 from forms import LoginForm, RegistrationForm, SearchForm
-
+from . import app
 
 @app.route('/')
 @app.route('/home')

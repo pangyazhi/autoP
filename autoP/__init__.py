@@ -4,21 +4,31 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import CsrfProtect
 import logging
 from logging.handlers import RotatingFileHandler
+from config import config
+from flask import Blueprint
+#
 
-app = Flask(__name__)
-app.secret_key = 'needtofixitlater'
-app.config['SECRET_KEY'] = 'needtofixitlater'
-app.config['WTF_CSRF_ENABLED'] = False
+
 handler = RotatingFileHandler('app.log', maxBytes=1024000, backupCount=4)
 handler.setLevel(logging.INFO)
-app.logger.addHandler(handler)
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'login'
-# login_manager.id_attribute = 'email'
-login_manager.init_app(app)
 csrf = CsrfProtect()
-csrf.init_app(app)
-Bootstrap(app)
+bootstrap = Bootstrap()
+main_blueprint = Blueprint('main', __name__)
+app = Flask(__name__)
 
-import autoP.views
+
+def create_app(config_name):
+
+    app.config.from_object(config[config_name])
+    app.logger.addHandler(handler)
+    login_manager.init_app(app)
+    csrf.init_app(app)
+    bootstrap.init_app(app)
+    app.register_blueprint(main_blueprint)
+    return app
+
+from . import views, errors
+
