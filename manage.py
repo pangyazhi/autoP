@@ -22,11 +22,7 @@ manager.add_command('shell', Shell(make_context=make_shell_context))
 
 
 @manager.command
-def test(coverage_package):
-    if coverage_package and not os.environ.get('FLASK_COVERAGE'):
-        import sys
-        os.environ['FLASK_COVERAGE'] = '1'
-        os.execvp(sys.executable, [sys.executable] + sys.argv)
+def test():
     import unittest
     tests_dir = os.path.abspath('.')
     tests = unittest.TestLoader().discover(tests_dir)
@@ -46,16 +42,40 @@ def profile(length=25, profile_dir=None):
 
 
 @manager.command
+def coverage():
+    COV = None
+    if os.environ.get('FLASK_COVERAGE'):
+        import coverage
+        COV = coverage.coverage(branch=True, include='app/*')
+        COV.start()
+
+    if os.path.exists('.env'):
+        print('Importing environment from .env...')
+        for line in open('.env'):
+            var = line.strip().split('=')
+            if len(var) == 2:
+                os.environ[var[0]] = var[1]
+    if not os.environ.get('FLASK_COVERAGE'):
+        import sys
+        os.environ['FLASK_COVERAGE'] = '1'
+        os.execvp(sys.executable, [sys.executable] + sys.argv)
+    if COV:
+        COV.stop()
+        COV.save()
+        print('Coverage Summary:')
+        COV.report()
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        covdir = os.path.join(basedir, 'tmp/coverage')
+        COV.html_report(directory=covdir)
+        print('HTML version: file://%s/index.html' % covdir)
+        COV.erase()
+
+
+@manager.command
 def deploy():
     """Run deployment tasks."""
-    from flask_migrate import upgrade
-    from autoP.models import Role
-
-    # migrate database to latest revision
-    upgrade()
-
-    # create user roles
-    Role.insert_roles()
+    from autoP.models import init_db
+    init_db()
 
 
 @manager.command

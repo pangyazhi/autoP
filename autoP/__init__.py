@@ -6,8 +6,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 from config import config
 
-#
-
 
 handler = RotatingFileHandler('app.log', maxBytes=1024000, backupCount=4)
 handler.setLevel(logging.INFO)
@@ -15,7 +13,6 @@ login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'login'
 csrf = CsrfProtect()
-
 app = Flask(__name__)
 
 

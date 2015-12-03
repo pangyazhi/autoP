@@ -12,6 +12,15 @@
     <script src="/static/scripts/jquery-1.10.2.js"></script>
     <script src="/static/scripts/bootstrap.js"></script>
     <script src="/static/scripts/respond.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#message").click(function(){
+                $("#message").hide(500);
+            });
+            $("#message").hide(10000);
+        });
+
+    </script>
     {% block scripts %}{% endblock %}
 </head>
 
@@ -46,16 +55,20 @@
 <div class="navbar navbar-fixed-bottom">
 
     <div class="container">
-        <p class="text-muted">&copy; 2016 - copyright left</p>
-        {% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class=flash>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</div>
-{% endif %}
-{% endwith %}
+        <div class="col-md-2">
+            <p class="text-muted">&copy; 2016 - copyright left</p>
+        </div>
+        <div class="col-md-2">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div id="message" class=flash>
+                {% for message in messages %}
+                <p class="text-info">{{ message }}<p/>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
     </div>
 
 </div>
