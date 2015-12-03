@@ -1,9 +1,10 @@
 from datetime import datetime
-from flask import render_template, redirect, url_for, flash
-from flask_login import logout_user, login_required
-from autoP.tests import User, load_user
+from flask import render_template, redirect, url_for, flash, abort, request
+from flask_login import logout_user, login_required, login_user
+from autoP.models import User, load_user
 from forms import LoginForm, RegistrationForm, SearchForm
 from . import app
+
 
 @app.route('/')
 @app.route('/home')
@@ -47,7 +48,7 @@ def show():
 
 
 @app.route('/search', methods=['GET', 'POST'])
-#@login_required
+# @login_required
 def search():
     form = SearchForm()
     if form.validate_on_submit():
@@ -65,18 +66,19 @@ def login():
     if form.validate_on_submit():
         # Login and validate the user.
         # user should be an instance of your `User` class
-        user = load_user(form.email.raw_data)[0]
-        if user is None:
+        users = load_user(form.email.raw_data)
+        if users.__len__() == 0:
             flash('We don\'t know you')
             return render_template('login.html', form=form)
-        else:
+        user = users[0]
+        if user.verify_password(form.password.raw_data[0]):
+            login_user(user)
+            flash('Logged in successfully.')
             return redirect(url_for('search'))
-            # if user.verify_password(form.password.raw_data):
-            #     login_user(user)
-            #     flash('Logged in successfully.')
-            #     return redirect(url_for('home'))
-            # else:
-            #     flash('wrong password')
+        else:
+            flash('wrong password')
+            return render_template('login.html', form=form)
+
     return render_template('login.html', form=form)
 
 
@@ -100,3 +102,14 @@ def register():
         flash('User is registered!')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+
+@app.route('/shutdown')
+def server_shutdown():
+    if app.testing:
+        return 'Cannot shutdown testing......'
+    shutdown = request.environ.get('werkzeug.server.shutdown')
+    if not shutdown:
+        abort(500)
+    shutdown()
+    return 'Shutting down the server......'

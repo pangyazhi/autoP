@@ -36,15 +36,7 @@
         </div>
     </div>
 </div>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class=flashes>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
+
 
 <div id="main" class="container clear-top">
     {% block content %}{% endblock %}
@@ -55,6 +47,15 @@
 
     <div class="container">
         <p class="text-muted">&copy; 2016 - copyright left</p>
+        {% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class=flash>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
     </div>
 
 </div>

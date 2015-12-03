@@ -24,7 +24,7 @@ class RegistrationForm(Form):
         pass
 
     def validate_email(self, field):
-        from autoP.tests import User
+        from autoP.models import User
         if User.get_by(email=field.data):
             raise ValidationError('Email already registered.')
 
