@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ title }} - Automation Center</title>
+    <title>{{ title }}</title>
 
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/content/site.css"/>
@@ -15,10 +15,11 @@
     <script>
         $(document).ready(function(){
             $("#message").click(function(){
-                $("#message").hide(500);
+                $("#message").hide();
             });
-            $("#message").hide(10000);
+            $("#message").hide(9000);
         });
+
 
     </script>
     {% block scripts %}{% endblock %}
@@ -26,7 +27,7 @@
 
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-default navbar-static-top"> <!-- fixed-top can be a choice -->
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -38,9 +39,25 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li class="previous"><a href="{{ url_for('home') }}"><i class="glyphicon glyphicon-home"
+                                                                        aria-hidden="true"></i>&nbsp Home</a></li>
+                <li class="previous"><a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-phone-alt"
+                                                                           aria-hidden="true"></i>&nbsp Contact</a></li>
+                <li class="previous"><a href="{{ url_for('about') }}"><i class="glyphicon glyphicon-info-sign"
+                                                                         aria-hidden="true"></i>&nbsp About</a></li>
+
+                {% if not current_user.is_authenticated %}
+                <li class="next"><a href="{{ url_for('register') }}"><i class="glyphicon glyphicon-registration-mark"
+                                                                        aria-hidden="true"></i>&nbsp Register</a></li>
+
+                <li class="next"><a href="{{ url_for('login') }}"><i class="glyphicon glyphicon-log-in"
+                                                                     aria-hidden="true"></i>&nbsp Sign In</a></li>
+
+                {% else %}
+                <li class="next"><a href="{{ url_for('logout') }}"><i class="glyphicon glyphicon-log-out"
+                                                                      aria-hidden="true"></i>&nbsp Sign Out</a></li>
+                {% endif %}
+
             </ul>
         </div>
     </div>
@@ -55,15 +72,27 @@
 <div class="navbar navbar-fixed-bottom">
 
     <div class="container">
-        <div class="col-md-2">
-            <p class="text-muted">&copy; 2016 - copyright left</p>
+        <div class="col-md-4">
+            <p class="text-muted">&copy; 2015 -
+                <script language="JavaScript" type="text/javascript">
+    now = new Date
+    theYear=now.getYear()
+    if (theYear < 1900)
+    theYear=theYear+1900
+    document.write(theYear)
+
+                </script>
+                copyleft
+            </p>
         </div>
-        <div class="col-md-2">
+        <div class="text-muted">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             <div id="message" class=flash>
                 {% for message in messages %}
-                <p class="text-info">{{ message }}<p/>
+                <p class="text-info">{{ message }}
+
+                <p/>
                 {% endfor %}
             </div>
             {% endif %}

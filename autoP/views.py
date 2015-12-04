@@ -11,7 +11,10 @@ from . import app
 def home():
     """Renders the home page."""
     return render_template(
-        'index.html'
+        'index.html',
+        title='Automation Center',
+        year=datetime.now().year,
+        message='Welcome to the Automation Center'
     )
 
 
@@ -21,7 +24,6 @@ def contact():
     return render_template(
         'contact.html',
         title='Contact',
-        year=datetime.now().year,
         message='Contact me if you have any questions.'
     )
 
@@ -32,7 +34,6 @@ def about():
     return render_template(
         'about.html',
         title='About',
-        year=datetime.now().year,
         message='Project Brief.'
     )
 

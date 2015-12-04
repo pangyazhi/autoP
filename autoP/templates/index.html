@@ -4,32 +4,56 @@
 
 
 <div class="jumbotron">
-    <h1>Automation Center</h1>
-	<p>Do you want to <a href="{{ url_for('login') }}">log in?</a>
-    <p>Do you want to <a href="{{ url_for('register')}}">register</a>
-    <p class="lead">Automation Center is the places we manage the automation test cases, test results, test clients.</p>
+    <div class="row">
+        <div class="col-xs-4">
+            <h2>Automation Center</h2>
 
+            <p class="lead">
+                Automation Center is the place we manage the automation test suites, analyze the test results, and
+                control the test environments.
+            </p>
+        </div>
+        <div class="col-xs-8">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item"
+                        src="https://youtube.com/embed/Vlg3pJ_KVyg"></iframe>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-3">
+        <h2>Manage Test Suites</h2>
+
         <p>
-            Flask gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Edit the test suites is not easy: Complex Business Logic, Changing UI, Test Data, and they are coupling
+            together. Oh, and you need to try them in your tests development environment, and make sure they work well
+            in testing environment. You can do all of these in this center.
         </p>
-        <p><a class="btn btn-default" href="http://flask.pocoo.org/docs/">Learn more &raquo;</a></p>
+
+        <p><a class="btn btn-default" href="https://youtu.be/Vlg3pJ_KVyg" target="_blank">How we do... &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>The Python Package Index is a repository of software for the Python programming language.</p>
-        <p><a class="btn btn-default" href="https://pypi.python.org/pypi">Learn more &raquo;</a></p>
+        <h2>Analyze Test Result</h2>
+
+        <p>
+            How could these Happened?! A bug, a new requirement change or my script issue? Feel even more difficult to
+            figure out the root causes of test failures? We provide text log, html report, snapshot and runtime video to
+            help you to reproduce the scenes. Not enough? OK, we will provide AI to help you soon.
+        </p>
+
+        <p><a class="btn btn-default" href="#" target="_blank">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Microsoft Azure</h2>
-        <p>You can easily publish to Microsoft Azure using Python Tools for Visual Studio. Find out how you can host your application using a free trial today.</p>
-        <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
+        <h2>Test Environments</h2>
+
+        <p>Manage Test Environments is not difficult, but workload. You need to install certain build of Application on
+            certain version of OS, with certain type and version of browser on a certain client/device. Do you have
+            enough machines, VMs, and time?
+        </p>
+
+        <p><a class="btn btn-default" href="#" target="_blank">Let's help you &raquo;</a></p>
     </div>
 </div>
 
