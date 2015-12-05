@@ -1,15 +1,30 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Register{% endblock %}
-
 {% block content %}
-<div class="page-header">
-    <h1>Register</h1>
-</div>
-<div>
+<h3>Register as a User</h3>
+<div class="col-lg-6">
     <br/>
-    {{ wtf.quick_form(form) }}
+
+    <form action="" method="post"
+          class="form" role="form">
+        <div style="display:none;"><input id="csrf_token" name="csrf_token" type="hidden" value="None"></div>
+        <div class="form-group  required">
+            <input class="form-control" placeholder="User's Email" id="email" name="email" required type="email"
+                   value="">
+        </div>
+        <div class="form-group  required">
+            <input class="form-control" placeholder="User's Password" id="password" name="password" required
+                   type="password" value="">
+        </div>
+        <div class="form-group  required">
+            <input class="form-control" placeholder="Confirm Password" id="password2" name="password2" required
+                   type="password" value="">
+        </div>
+        <button class="btn btn-default" id="submit" name="submit" type="submit">
+            <i class="glyphicon glyphicon-registration-mark" aria-hidden="true"></i> &nbsp &nbsp Register &nbsp &nbsp
+        </button>
+    </form>
     <br/>
 </div>
 {% endblock %}

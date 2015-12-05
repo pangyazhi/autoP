@@ -39,22 +39,23 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="previous"><a href="{{ url_for('home') }}"><i class="glyphicon glyphicon-home"
+                <li><a href="{{ url_for('home') }}"><i class="glyphicon glyphicon-home"
                                                                         aria-hidden="true"></i>&nbsp Home</a></li>
-                <li class="previous"><a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-phone-alt"
+                <li><a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-phone-alt"
                                                                            aria-hidden="true"></i>&nbsp Contact</a></li>
-                <li class="previous"><a href="{{ url_for('about') }}"><i class="glyphicon glyphicon-info-sign"
+                <li><a href="{{ url_for('about') }}"><i class="glyphicon glyphicon-info-sign"
                                                                          aria-hidden="true"></i>&nbsp About</a></li>
 
+                <li class="divider"></li>
                 {% if not current_user.is_authenticated %}
-                <li class="next"><a href="{{ url_for('register') }}"><i class="glyphicon glyphicon-registration-mark"
+                <li><a href="{{ url_for('register') }}"><i class="glyphicon glyphicon-registration-mark"
                                                                         aria-hidden="true"></i>&nbsp Register</a></li>
 
-                <li class="next"><a href="{{ url_for('login') }}"><i class="glyphicon glyphicon-log-in"
+                <li><a href="{{ url_for('login') }}"><i class="glyphicon glyphicon-log-in"
                                                                      aria-hidden="true"></i>&nbsp Sign In</a></li>
 
                 {% else %}
-                <li class="next"><a href="{{ url_for('logout') }}"><i class="glyphicon glyphicon-log-out"
+                <li><a href="{{ url_for('logout') }}"><i class="glyphicon glyphicon-log-out"
                                                                       aria-hidden="true"></i>&nbsp Sign Out</a></li>
                 {% endif %}
 
@@ -85,14 +86,17 @@
                 copyleft
             </p>
         </div>
-        <div class="text-muted">
-            {% with messages = get_flashed_messages() %}
+        <div class="text">
+            {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-            <div id="message" class=flash>
-                {% for message in messages %}
-                <p class="text-info">{{ message }}
+            <div id="message" class='flashes'>
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <p class="text-danger">{{ message }}<p/>
+                    {% else %}
+                        <p class="text-success">{{ message }}<p/>
+                    {% endif %}
 
-                <p/>
                 {% endfor %}
             </div>
             {% endif %}

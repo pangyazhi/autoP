@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, redirect, url_for, flash, abort, request
+from flask import render_template, redirect, url_for, flash, abort, request, jsonify
 from flask_login import logout_user, login_required, login_user
 from autoP.models import User, load_user
 from forms import LoginForm, RegistrationForm, SearchForm
@@ -49,12 +49,15 @@ def show():
 
 
 @app.route('/search', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def search():
     form = SearchForm()
     if form.validate_on_submit():
         # do some search here
-        app.logger.info(form.search.raw_data)
+        searchString = form.search.raw_data
+        flash(searchString)
+        # rlts = User.query.like(email=searchString)
+        # app.logger.info(form.search.raw_data)
     return render_template('search.html', form=form)
 
 
@@ -69,15 +72,15 @@ def login():
         # user should be an instance of your `User` class
         users = load_user(form.email.raw_data)
         if users.__len__() == 0:
-            flash('We don\'t know you')
+            flash(message='We don\'t know you', category='error')
             return render_template('login.html', form=form)
         user = users[0]
         if user.verify_password(form.password.raw_data[0]):
             login_user(user)
-            flash('Logged in successfully.')
+            flash(message='Logged in successfully.',category='message')
             return redirect(url_for('search'))
         else:
-            flash('wrong password')
+            flash(message='wrong password', category='error')
             return render_template('login.html', form=form)
 
     return render_template('login.html', form=form)
@@ -114,3 +117,26 @@ def server_shutdown():
         abort(500)
     shutdown()
     return 'Shutting down the server......'
+
+
+@app.errorhandler(403)
+def forbidden(error):
+    return handle_error(error, 'Forbidden', 403)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return handle_error(error, 'Page Not Found', 404)
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return handle_error(error, 'Internal Server Error', 500)
+
+
+def handle_error(error, server_error, error_code):
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        response = jsonify({'error': server_error})
+        response.status_code = error_code
+        return response
+    return render_template('error.html', message='Internal Server Error'), error_code

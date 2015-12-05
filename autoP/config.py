@@ -7,12 +7,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRECT_KEY') or 'to be fixed later'
     WTF_CSRF_ENABLED = False
-    HOST = environ.get('SERVER_HOST', '0.0.0.0')
-    try:
-        PORT = int(environ.get('SERVER_PORT', '5000'))
-    except ValueError:
-        PORT = 5555
-    SERVER_NAME = HOST + ':' + str(PORT)
 
     @staticmethod
     def init_app(app):
@@ -39,6 +33,7 @@ class ProductionConfig(Config):
         pass
 
     PRODUCTION = True
+    SERVER_NAME = '0.0.0.0:5000'
 
 
 config = dict(development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig,
