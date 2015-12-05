@@ -5,21 +5,24 @@
 <h3>Sign Into Automation Center</h3>
 <div class="col-lg-6">
     <br/>
+
     <form action="" method="post"
           class="form" role="form">
         <div style="display:none;"><input id="csrf_token" name="csrf_token" type="hidden" value="None"></div>
         <div class="form-group  required">
-            <input class="form-control" placeholder="User's Email" id="email" name="email" required type="text" value="">
+            <input class="form-control" placeholder="User's Email" id="email" name="email" required type="email"
+                   value="">
         </div>
         <div class="form-group  required">
-            <input class="form-control" placeholder="User's Password" id="password" name="password" required type="password" value="">
+            <input class="form-control" placeholder="User's Password" id="password" name="password" required
+                   type="password" value="">
         </div>
         <div class="checkbox">
             <label>
                 <input id="remember_me" name="remember_me" type="checkbox" value="y"> Keep me logged in
             </label>
         </div>
-        <button class="btn btn-default" id="submit" name="submit" type="submit" >
+        <button class="btn btn-default" id="submit" name="submit" type="submit">
             <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i> &nbsp &nbsp Sign In &nbsp &nbsp
         </button>
     </form>
