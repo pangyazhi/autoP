@@ -1,7 +1,16 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{% if error %}
+<p class="error"><strong>Error:</strong>{{ error }}</p>
+{% endif %}
+<br>
 <div class="row">
     {% for result in results %}
     <div class="col-md-12">
-        <p>result.name</p>
+        <p>{{result.email}}</p>
     </div>
     {% endfor %}
 </div>
+
+{% endblock %}

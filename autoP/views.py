@@ -53,12 +53,20 @@ def show():
 def search():
     form = SearchForm()
     if form.validate_on_submit():
-        # do some search here
-        searchString = form.search.raw_data
-        flash(searchString)
-        # rlts = User.query.like(email=searchString)
-        # app.logger.info(form.search.raw_data)
+        # input some search here
+        search_string = form.search.raw_data
+        flash(search_string)
+        app.logger.info(form.search.raw_data)
+        return redirect(url_for('search_result', query=search_string))
+        # redirect(url_for('search'))
     return render_template('search.html', form=form)
+
+
+@app.route('/search_result/<query>')
+@login_required
+def search_result(query):
+    results = User.query.all()
+    return render_template('_results.html', query=query, results=results)
 
 
 @app.route('/login', methods=['GET', 'POST'])

@@ -6,7 +6,7 @@
 
     <title>{{ title }}</title>
 
-    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="/static/content/site.css"/>
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
     <script src="/static/scripts/jquery-1.10.2.js"></script>
@@ -27,7 +27,8 @@
 
 <body>
 
-<div class="navbar navbar-default navbar-static-top"> <!-- fixed-top can be a choice -->
+<div class="navbar navbar-inverse navbar-fixed-top"> <!-- fixed-top can be a choice -->
+    <div class="navbar-inner">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -38,8 +39,8 @@
             <a href="/" class="navbar-brand">Automation Center</a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('home') }}"><i class="glyphicon glyphicon-home"
+            <ul class="nav navbar-nav pull-left">
+                <li><a class="active" href="{{ url_for('home') }}"><i class="glyphicon glyphicon-home"
                                                                         aria-hidden="true"></i>&nbsp Home</a></li>
                 <li><a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-phone-alt"
                                                                            aria-hidden="true"></i>&nbsp Contact</a></li>
@@ -47,6 +48,8 @@
                                                                          aria-hidden="true"></i>&nbsp About</a></li>
 
                 <li class="divider"></li>
+                </ul>
+                <ul class="nav navbar-nav pull-right">
                 {% if not current_user.is_authenticated %}
                 <li><a href="{{ url_for('register') }}"><i class="glyphicon glyphicon-registration-mark"
                                                                         aria-hidden="true"></i>&nbsp Register</a></li>
@@ -58,18 +61,21 @@
                 <li><a href="{{ url_for('logout') }}"><i class="glyphicon glyphicon-log-out"
                                                                       aria-hidden="true"></i>&nbsp Sign Out</a></li>
                 {% endif %}
+                    </ul>
 
-            </ul>
+
         </div>
+    </div>
     </div>
 </div>
 
 
 <div id="main" class="container clear-top">
+
     {% block content %}{% endblock %}
 </div>
 
-
+<div id="push"></div>
 <div class="navbar navbar-fixed-bottom">
 
     <div class="container">

@@ -33,4 +33,4 @@ class SearchForm(Form):
     def generate_csrf_token(self, csrf_context):
         pass
     search = StringField('', validators={DataRequired(), Length(1, 128)})
-    submit = SubmitField('Find')
+    # submit = SubmitField('Find')

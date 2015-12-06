@@ -1,0 +1,22 @@
+<script>
+
+        $("#find').bind(function(){
+            if $('#search').val() != '' then
+                $.load('search_result/'+$('#search').value);
+        });
+
+</script>
+
+<form action="" method="post"
+      class="form-search" role="form">
+
+<div class="input-append">
+    <input class="span2 search-query" id="search" name="search" required type="text" value=""
+           placeholder="Search for...">
+
+    <button class="btn" id="find" name="submit" type="button" value="Find">
+        <!--<i class="glyphicon glyphicon-search" aria-hidden="true"/>-->
+    </button>
+
+</div>
+</form>
