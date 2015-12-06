@@ -4,28 +4,21 @@
 {% if error %}
 <p class="error"><strong>Error:</strong>{{ error }}</p>
 {% endif %}
-
+<br>
 <form action="" method="post"
       class="form-search" role="form">
 
-    <div class="control-group">
-        <div class="controls">
 <div class="input-append">
-    <input class="span2 search-query" id="search" name="search" required type="text" value=""
+    <input class="span2" id="search" name="search" required type="text"
            placeholder="Search for...." >
-    <span class="add-on">
-        <i class="icon-search"></i>
-        </span>
-    </div>
-        </div>
-        </div>
-    <div>
+
     <button class="btn btn-default" id="submit" name="submit" type="submit">
-        <i class="icon-search"></i>
+        <i class="glyphicon glyphicon-search"></i>
     </button>
 
-
 </div>
+
+
 </form>
 
 {% endblock %}
