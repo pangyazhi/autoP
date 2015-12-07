@@ -107,7 +107,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         if User.get_by(email=form.email.data):
-            flash('User already existing.')
+            flash(message='User already existing.', category='error')
             return redirect(url_for('register'))
         user = User(email=form.email.data, password=form.password.data)
         user.save()

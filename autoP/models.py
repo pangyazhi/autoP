@@ -47,7 +47,7 @@ class User(UserMixin, rom.Model):
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
-        if 'password' in kwargs :
+        if 'password' in kwargs:
             self.password_hash = generate_password_hash(kwargs['password'])
         if self.role is None:
             self.role = Role.get_by(name='User')
