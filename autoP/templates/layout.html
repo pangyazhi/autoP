@@ -7,7 +7,7 @@
     <title>{{ title }}</title>
 
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.css" media="screen"/>
-    <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="/static/content/site.css"/>
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
     <script src="/static/scripts/jquery-1.10.2.js"></script>
@@ -20,6 +20,7 @@
             });
             $("#message").hide(9000);
         });
+
 
 
 
@@ -65,7 +66,7 @@
                         <input class="span2" id="search" name="search" required type="text"
                                placeholder="Search for....">
 
-                        <button  class="btn btn-mini" id="find" name="find" type="submit">
+                        <button class="btn btn-mini" id="find" name="find" type="submit">
                             <!--<i class="glyphicon glyphicon-search"></i>-->
                             Find
                         </button>
@@ -102,6 +103,7 @@
     document.write(theYear)
 
 
+
                 </script>
                 copyleft
             </p>
@@ -112,13 +114,9 @@
             <div id="message" class='flashes'>
                 {% for category, message in messages %}
                 {% if category == 'error' %}
-                <p class="text-danger">{{ message }}
-
-                <p/>
+                <p class="text-danger">{{ message }}</p>
                 {% else %}
-                <p class="text-success">{{ message }}
-
-                <p/>
+                <p class="text-success">{{ message }}</p>
                 {% endif %}
 
                 {% endfor %}

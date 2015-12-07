@@ -43,11 +43,11 @@ def profile(length=25, profile_dir=None):
 
 @manager.command
 def coverage():
-    COV = None
+    cov = None
     if os.environ.get('FLASK_COVERAGE'):
         import coverage
-        COV = coverage.coverage(branch=True, include='app/*')
-        COV.start()
+        cov = coverage.coverage(branch=True, include='app/*')
+        cov.start()
 
     if os.path.exists('.env'):
         print('Importing environment from .env...')
@@ -59,16 +59,16 @@ def coverage():
         import sys
         os.environ['FLASK_COVERAGE'] = '1'
         os.execvp(sys.executable, [sys.executable] + sys.argv)
-    if COV:
-        COV.stop()
-        COV.save()
+    if cov:
+        cov.stop()
+        cov.save()
         print('Coverage Summary:')
-        COV.report()
+        cov.report()
         basedir = os.path.abspath(os.path.dirname(__file__))
         covdir = os.path.join(basedir, 'tmp/coverage')
-        COV.html_report(directory=covdir)
+        cov.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
-        COV.erase()
+        cov.erase()
 
 
 @manager.command

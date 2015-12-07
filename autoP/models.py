@@ -8,6 +8,9 @@ from autoP import login_manager
 
 
 class Permission:
+    def __init__(self):
+        pass
+
     ADMIN = 0x80
     VIEW = 0x01
     UPDATE = 0x02
@@ -21,16 +24,12 @@ class Role(rom.Model):
 
     @staticmethod
     def insert_roles():
-        roles = {
-            'User': (
-                     Permission.VIEW |
-                     Permission.CREATE, True),
-            'Moderator': ( Permission.UPDATE |
-                          Permission.ADMIN |
-                          Permission.RUN |
-                          Permission.VIEW, False),
-            'Administrator': (0xff, False)
-        }
+        roles = {'User': (
+            Permission.VIEW |
+            Permission.CREATE, True), 'Moderator': (Permission.UPDATE |
+                                                    Permission.ADMIN |
+                                                    Permission.RUN |
+                                                    Permission.VIEW, False), 'Administrator': (0xff, False)}
         for r in roles:
             role = Role.get_by(name=r)
             if role is None:
@@ -48,7 +47,7 @@ class User(UserMixin, rom.Model):
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
-        if kwargs.has_key('password'):
+        if 'password' in kwargs :
             self.password_hash = generate_password_hash(kwargs['password'])
         if self.role is None:
             self.role = Role.get_by(name='User')

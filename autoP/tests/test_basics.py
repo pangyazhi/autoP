@@ -1,5 +1,4 @@
 import unittest
-from flask import current_app
 from autoP import create_app
 
 
@@ -24,3 +23,4 @@ class BasicsTestCase(unittest.TestCase):
 
     def test_app_is_testing(self):
         self.assertTrue(self.app.config['TESTING'])
+

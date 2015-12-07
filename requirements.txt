@@ -1,3 +1,5 @@
+coverage
+wtforms
 rom
 Flask==0.10.1
 itsdangerous==0.24

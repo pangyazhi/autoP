@@ -85,7 +85,7 @@ def login():
         user = users[0]
         if user.verify_password(form.password.raw_data[0]):
             login_user(user)
-            flash(message='Logged in successfully.',category='message')
+            flash(message='Logged in successfully.', category='message')
             return redirect(url_for('search'))
         else:
             flash(message='wrong password', category='error')
@@ -147,4 +147,4 @@ def handle_error(error, server_error, error_code):
         response = jsonify({'error': server_error})
         response.status_code = error_code
         return response
-    return render_template('error.html', message='Internal Server Error'), error_code
+    return render_template('error.html', message='Internal Server Error:'), error_code
