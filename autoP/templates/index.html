@@ -12,10 +12,44 @@
             </p>
         </div>
         <div class="col-md-8">
-            <div class="responsive-video">
-                <iframe class="embed-responsive-item"
-                        src="https://youtube.com/embed/Vlg3pJ_KVyg"></iframe>
+
+            <div id="myCarousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                    <div class="active item">
+                        <div class="responsive-video">
+                            <iframe class="embed-responsive-item"
+                                    src="https://youtube.com/embed/Vlg3pJ_KVyg"></iframe>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="responsive-video">
+                            <iframe class="embed-responsive-item"
+                                    src="https://youtube.com/embed/3EVQygcoU2I"></iframe>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="responsive-video">
+                            <iframe class="embed-responsive-item"
+                                    src="https://youtube.com/embed/NfXfUvS6Jmc"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel nav -->
+                <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+                    <i class="icon-chevron-left"> &lsaquo;&lsaquo; </i>
+                </a>
+                <a class="carousel-control right" href="#myCarousel" data-slide="next">
+                    <i class="icon-chevron-right"> &rsaquo;&rsaquo; </i>
+                </a>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -46,7 +80,8 @@
     <div class="col-md-4">
         <h2>Test Environments</h2>
 
-        <p>Manage Test Environments is not difficult, but HUGE time consuming workload! You need to install certain build of Application on
+        <p>Manage Test Environments is not difficult, but HUGE time consuming workload! You need to install certain
+            build of Application on
             certain version of OS, with certain type and version of browser on a certain client/device. Do you have
             enough machines, VMs, and time?
         </p>
