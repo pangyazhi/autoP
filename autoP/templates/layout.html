@@ -43,12 +43,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-left">
+                    {% if current_user.is_authenticated %}
+                    <li><a class="active" href="{{ url_for('dash_board') }}"><i class="glyphicon glyphicon-home"
+                                                                          aria-hidden="true"></i>&nbsp Home</a></li>
+                    {% else %}
                     <li><a class="active" href="{{ url_for('home') }}"><i class="glyphicon glyphicon-home"
                                                                           aria-hidden="true"></i>&nbsp Home</a></li>
                     <li><a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-phone-alt"
                                                               aria-hidden="true"></i>&nbsp Contact</a></li>
                     <li><a href="{{ url_for('about') }}"><i class="glyphicon glyphicon-info-sign"
                                                             aria-hidden="true"></i>&nbsp About</a></li>
+                    {% endif %}
+
 
                 </ul>
                 <ul class="nav navbar-nav pull-right">
