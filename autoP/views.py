@@ -48,6 +48,15 @@ def show():
     )
 
 
+@app.route('/dash_board')
+def dash_board():
+    return render_template(
+        'dash_board.html',
+        title = 'Dash Board',
+        message='Welcome to the Automation Center'
+    )
+
+
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
@@ -86,7 +95,7 @@ def login():
         if user.verify_password(form.password.raw_data[0]):
             login_user(user)
             flash(message='Logged in successfully.', category='message')
-            return redirect(url_for('search'))
+            return redirect(url_for('dash_board'))
         else:
             flash(message='wrong password', category='error')
             return render_template('login.html', form=form)

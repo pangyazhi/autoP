@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{% if error %}
+<p class="error"><strong>Error:</strong>{{ error }}</p>
+{% endif %}
+<br>
+
+<!-- every row put 3 items -->
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="jumbotron">
+            <h2>User Manager</h2>
+
+            <p class="lead">Manage System Users</p>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-lg btn-primary">Users</button>
+                <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"><span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Create New User</a></li>
+                    <li><a href="#">Edit User</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Delete User</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="jumbotron">
+            <h2>Todo Tasks</h2>
+
+            <p class="lead">Manage Tasks</p>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-lg btn-primary">Tasks</button>
+                <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"><span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Create New Task</a></li>
+                    <li><a href="#">Edit Task</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Delete Task</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="jumbotron">
+            <h2>Known Issues</h2>
+
+            <p class="lead">Manage Known Issues</p>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-lg btn-primary">Known Issues</button>
+                <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"><span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Create New Issue</a></li>
+                    <li><a href="#">Edit Issue</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Delete Issue</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">Test Suites</div>
+    <div class="col-md-4">UI</div>
+    <div class="col-md-4">Data</div>
+</div>
+<div class="row">
+    <div class="col-md-4">Test Results</div>
+    <div class="col-md-4">Running Instances</div>
+    <div class="col-md-4">Environments</div>
+</div>
+
+
+{% endblock %}
