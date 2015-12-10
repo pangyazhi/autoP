@@ -41,6 +41,17 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+.btn-xxs {
+  padding: 3px 3px;
+  font-size: 8px;
+  line-height: 1.0;
+  border-radius: 1px;
+}
+
+.btn-xxs {
+  padding: 1px 3px;
+}
+
 .responsive-video {
 position: relative;
 padding-bottom: 56.25%;

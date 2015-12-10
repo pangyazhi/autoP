@@ -1,4 +1,3 @@
-import time
 from functools import wraps
 import datetime
 from flask_login import UserMixin, current_user
@@ -51,6 +50,10 @@ class Role(Document):
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
+
+    def get_related_actions(self, user):
+        return Task.get(user, 'Edit Role', 'Delete Role')
+
 
     @staticmethod
     def regex_search(query_string):
@@ -351,6 +354,20 @@ class Task(Document):
     def regex_search(query_string):
         return Task.objects(Q(name__icontains=query_string) or
                             Q(description__icontians=query_string))
+    @staticmethod
+    def get(user, *args):
+        ret = []
+        for a in args:
+            t = Task.objects(name=a).all()
+            if t is not None:
+                if user.role in t:
+                    for tt in t:
+                        if tt not in ret:
+                            ret.append(tt)
+        return t
+
+    def has_right(self, user):
+        return user.role in self.required_role
 
 
 class TaskGroup(Document):
@@ -432,6 +449,10 @@ def get_regex_search_method(document_type):
 
 
 def view_helper(object):
+    """
+
+    :type object: Document
+    """
     if object is None:
         return ''
     object_type = object._cls
@@ -439,7 +460,7 @@ def view_helper(object):
     display_value = getattr(object, display_view)
     no_view = getattr(object, 'no_view')
     id_value = str(object._data['id'])
-    view_body = '<div id="' + id_value + '" class="panel-collapse">' \
+    view_body = '<div id="' + id_value + '" class="panel-collapse collapse">' \
                                          '<div class="panel-body">'
     for key in object._data.keys():
         if key in no_view:
@@ -452,8 +473,11 @@ def view_helper(object):
             view_body += '</span><br>'
             continue
         if isinstance(value, Document):
-            view_body += '<span><strong>' + key + '&nbsp;</strong><u>' + getattr(value, getattr(value,
-                                                                                                'display')) + '</u></span><br>'
+            view_body += '<span><strong>' + \
+                         key + \
+                         '&nbsp;</strong><u>' + \
+                         getattr(value, getattr(value, 'display')) + \
+                         '</u></span><br>'
             continue
         if not callable(value) and not key.startswith('_'):
             view_body += '<span><strong>' + key + '&nbsp;</strong>' + str(value) + '</span><br>'
@@ -461,12 +485,37 @@ def view_helper(object):
     view_body += '</div></div>'
     ret = '' \
           '<div class="panel panel-default">' \
-          '<div class="panel-heading">' \
-          '<span class="text-muted">' + object_type + '&nbsp;</span> <Strong>' \
-                                                   '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + id_value + '" aria-expanded="false" aria-controls="' + id_value + '">' \
+          '<div class="panel-heading"><span class="text-muted">&nbsp;' + object_type + \
+            '&nbsp;<Strong>' \
+          '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + \
+          id_value + \
+          '" aria-expanded="false" aria-controls="' + \
+          id_value + \
+          '">' \
           + display_value + \
-          '</a></Strong>' \
+          '</a> &nbsp;&nbsp;</Strong>' \
+           '<div class="btn-group dropdown">' \
+  '<button class="btn dropdown-toggle btn-xxs text-muted" data-toggle="dropdown">...' \
+  '</button>'  \
+          '&nbsp; '+ get_related_action(object) +'</div>' \
           '</div>' + view_body + \
           '</div>'
 
+    return ret
+
+
+def get_related_action(object):
+    if not hasattr(object, 'get_related_actions'):
+        return make_related_action_dropdown(['Create', 'View', 'Edit', 'Delete'])
+    method = getattr(object, 'get_related_actions')
+    if not callable(method):
+        return make_related_action_dropdown(['Create', 'View', 'Edit', 'Delete'])
+    return make_related_action_dropdown(method(current_user))
+
+
+def make_related_action_dropdown(l):
+    ret = '<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">'
+    for item in l:
+        ret += '<li><a tabindex="-1" href="#">'+item+'</a></li>'
+    ret += '</ul>'
     return ret

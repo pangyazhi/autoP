@@ -19,7 +19,8 @@ class DevelopmentConfig(Config):
     SERVER_NAME = 'localhost:5000'
     DEBUG = True
     MONGOALCHEMY_DATABASE = 'Testing'
-    MONGODB_SETTINGS = {'db': MONGOALCHEMY_DATABASE, 'host': 'mongodb://localhost/' + MONGOALCHEMY_DATABASE }
+    MONGODB_SETTINGS = \
+        {'db': MONGOALCHEMY_DATABASE, 'host': 'mongodb://localhost/' + MONGOALCHEMY_DATABASE}
     DEBUG_TB_PANELS = ['flask.ext.mongoengine.panels.MongoDebugPanel']
 
 

@@ -1,8 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, StopValidation, ValidationError
-
-from autoP.models import User
+from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
 class LoginForm(Form):
