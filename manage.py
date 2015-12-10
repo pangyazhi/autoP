@@ -84,10 +84,7 @@ def clear():
     Delete everything in the Redis Database
     :return: no return
     """
-    import redis
-    r = redis.StrictRedis()
-    r.flushdb()
-
+    delete_db()
 
 if __name__ == '__main__':
     manager.run()

@@ -1,7 +1,9 @@
 from datetime import datetime
+
 from flask import render_template, redirect, url_for, flash, abort, request, jsonify
 from flask_login import logout_user, login_required, login_user
-from autoP.models import User, load_user
+
+from autoP.models import User, load_user, query_results
 from forms import LoginForm, RegistrationForm, SearchForm
 from . import app
 
@@ -63,18 +65,18 @@ def search():
     form = SearchForm()
     if form.validate_on_submit():
         # input some search here
-        search_string = form.search.raw_data
+        search_string = form.search.data
         flash(search_string)
-        app.logger.info(form.search.raw_data)
+        app.logger.info(form.search.data)
         return redirect(url_for('search_result', query=search_string))
         # redirect(url_for('search'))
     return render_template('search.html', form=form)
 
 
-@app.route('/search_result/<query>')
+@app.route('/search_result/<string:query>')
 @login_required
 def search_result(query):
-    results = User.query.all()
+    results = query_results(query)
     return render_template('_results.html', query=query, results=results)
 
 
@@ -87,12 +89,12 @@ def login():
     if form.validate_on_submit():
         # Login and validate the user.
         # user should be an instance of your `User` class
-        users = load_user(form.email.raw_data)
-        if users.__len__() == 0:
+        users = load_user(form.email.data)
+        if users is None:
             flash(message='We don\'t know you', category='error')
             return render_template('login.html', form=form)
-        user = users[0]
-        if user.verify_password(form.password.raw_data[0]):
+        user = users
+        if user.verify_password(form.password.data):
             login_user(user)
             flash(message='Logged in successfully.', category='message')
             return redirect(url_for('dash_board'))

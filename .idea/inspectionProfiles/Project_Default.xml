@@ -20,11 +20,12 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="4">
+          <list size="5">
             <item index="0" class="java.lang.String" itemvalue="Werkzeug" />
             <item index="1" class="java.lang.String" itemvalue="virtualenv" />
             <item index="2" class="java.lang.String" itemvalue="plac" />
             <item index="3" class="java.lang.String" itemvalue="redis" />
+            <item index="4" class="java.lang.String" itemvalue="rom" />
           </list>
         </value>
       </option>

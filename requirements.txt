@@ -1,3 +1,4 @@
+mongoengine
 coverage
 wtforms
 rom

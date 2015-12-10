@@ -18,6 +18,9 @@ class DevelopmentConfig(Config):
 
     SERVER_NAME = 'localhost:5000'
     DEBUG = True
+    MONGOALCHEMY_DATABASE = 'Testing'
+    MONGODB_SETTINGS = {'db': MONGOALCHEMY_DATABASE, 'host': 'mongodb://localhost/' + MONGOALCHEMY_DATABASE }
+    DEBUG_TB_PANELS = ['flask.ext.mongoengine.panels.MongoDebugPanel']
 
 
 class TestingConfig(Config):
@@ -25,6 +28,10 @@ class TestingConfig(Config):
         pass
 
     TESTING = True
+    SERVER_NAME = 'localhost:5000'
+    MONGOALCHEMY_DATABASE = 'Testing'
+    MONGODB_SETTINGS = {'db': MONGOALCHEMY_DATABASE, 'host': 'mongodb://localhost/' + MONGOALCHEMY_DATABASE}
+    DEBUG_TB_PANELS = ['flask.ext.mongoengine.panels.MongoDebugPanel']
 
 
 class ProductionConfig(Config):
@@ -33,7 +40,8 @@ class ProductionConfig(Config):
 
     PRODUCTION = True
     SERVER_NAME = '0.0.0.0:5000'
-
+    MONGOALCHEMY_DATABASE = 'Automation'
+    MONGODB_SETTINGS = {'db': MONGOALCHEMY_DATABASE, 'host': 'mongodb://localhost/' + MONGOALCHEMY_DATABASE}
 
 config = dict(development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig,
               default=DevelopmentConfig)
