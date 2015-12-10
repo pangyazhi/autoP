@@ -48,6 +48,9 @@ class Role(Document):
     permissions = ListField(StringField(choices=ALL_PERMISSIONS))
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
@@ -100,6 +103,9 @@ class User(UserMixin, Document):
     authenticated = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'email'
+    no_view = {'password', 'password_hash', 'authenticated', 'email'}
+    no_edit = {'created_at', 'update_at'}
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -172,12 +178,16 @@ class UiObject(Document):
     xpath = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return UiObject.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string),
-                            Q(xpath__icontians=query_string))
+                                Q(description__icontians=query_string),
+                                Q(xpath__icontians=query_string))
+
 
 class Computer(Document):
     name = StringField(required=True)
@@ -187,12 +197,15 @@ class Computer(Document):
     status = StringField(required=True)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return Computer.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string),
-                            Q(status__icontians=query_string))
+                                Q(description__icontians=query_string),
+                                Q(status__icontians=query_string))
 
 
 class Variable(Document):
@@ -201,12 +214,15 @@ class Variable(Document):
     description = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return Variable.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string),
-                            Q(data__icontians=query_string))
+                                Q(description__icontians=query_string),
+                                Q(data__icontians=query_string))
 
 
 class Environment(Document):
@@ -219,6 +235,9 @@ class Environment(Document):
     dbServer = ReferenceField(Computer, required=True)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     def add_variable(self, name, data):
         variable = Variable(name=name, data=data, parent=self)
@@ -227,8 +246,8 @@ class Environment(Document):
     @staticmethod
     def regex_search(query_string):
         return Environment.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string),
-                            Q(status__icontians=query_string))
+                                   Q(description__icontians=query_string),
+                                   Q(status__icontians=query_string))
 
 
 class TestActivity(Document):
@@ -238,11 +257,14 @@ class TestActivity(Document):
     enabled = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return TestActivity.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string))
+                                    Q(description__icontians=query_string))
 
 
 class Instance(Document):
@@ -254,12 +276,15 @@ class Instance(Document):
     variables = ListField(Variable)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return Instance.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string),
-                            Q(status__icontians=query_string))
+                                Q(description__icontians=query_string),
+                                Q(status__icontians=query_string))
 
 
 class DataObject(Document):
@@ -268,11 +293,14 @@ class DataObject(Document):
     data = ListField(Variable)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return DataObject.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string))
+                                  Q(description__icontians=query_string))
 
 
 class Result(Document):
@@ -284,11 +312,14 @@ class Result(Document):
     stopped_at = DateTimeField(default=datetime.datetime.now())
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return Result.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string))
+                              Q(description__icontians=query_string))
 
 
 class StepResult(Document):
@@ -312,6 +343,9 @@ class Task(Document):
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
     required_role = ListField(Role)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
@@ -326,11 +360,14 @@ class TaskGroup(Document):
     description = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    display = 'name'
+    no_view = {'name'}
+    no_edit = {'created_at', 'update_at'}
 
     @staticmethod
     def regex_search(query_string):
         return TaskGroup.objects(Q(name__icontains=query_string) or
-                            Q(description__icontians=query_string))
+                                 Q(description__icontians=query_string))
 
 
 def init_db():
@@ -356,7 +393,10 @@ def query_results(query_string):
         for r in func(qs):
             if r not in results:
                 results.append(r)
-    return results
+    view_results = []
+    for v in results:
+        view_results.append(view_helper(v))
+    return view_results
 
 
 def get_regex_search_method(document_type):
@@ -365,9 +405,68 @@ def get_regex_search_method(document_type):
         'usr': User.regex_search,
         'task': Task.regex_search,
         'tsk': Task.regex_search,
-        'role': Role.regex_search
+        'role': Role.regex_search,
+        'uiobject': UiObject.regex_search,
+        'ui': UiObject.regex_search,
+        'u': UiObject.regex_search,
+        'data': DataObject.regex_search,
+        'd': DataObject.regex_search,
+        'dataobject': DataObject.regex_search,
+        'variables': Variable.regex_search,
+        'var': Variable.regex_search,
+        'vars': Variable.regex_search,
+        'v': Variable.regex_search,
+        'instance': Instance.regex_search,
+        'inst': Instance.regex_search,
+        'env': Environment.regex_search,
+        'environment': Environment.regex_search,
+        'computer': Computer.regex_search,
+        'test': TestActivity.regex_search,
+        'tst': TestActivity.regex_search,
+        'result': Result.regex_search,
+        'rlt': Result.regex_search
     }
     if document_type in functions_map.keys():
         return functions_map[document_type]
     return None
 
+
+def view_helper(object):
+    if object is None:
+        return ''
+    object_type = object._cls
+    display_view = getattr(object, 'display')
+    display_value = getattr(object, display_view)
+    no_view = getattr(object, 'no_view')
+    id_value = str(object._data['id'])
+    view_body = '<div id="' + id_value + '" class="panel-collapse">' \
+                                         '<div class="panel-body">'
+    for key in object._data.keys():
+        if key in no_view:
+            continue
+        value = object._data[key]
+        if isinstance(value, list):
+            view_body += '<span><strong>' + key + '&nbsp;</strong>'
+            for v in value:
+                view_body += '&nbsp;' + v
+            view_body += '</span><br>'
+            continue
+        if isinstance(value, Document):
+            view_body += '<span><strong>' + key + '&nbsp;</strong><u>' + getattr(value, getattr(value,
+                                                                                                'display')) + '</u></span><br>'
+            continue
+        if not callable(value) and not key.startswith('_'):
+            view_body += '<span><strong>' + key + '&nbsp;</strong>' + str(value) + '</span><br>'
+
+    view_body += '</div></div>'
+    ret = '' \
+          '<div class="panel panel-default">' \
+          '<div class="panel-heading">' \
+          '<span class="text-muted">' + object_type + '&nbsp;</span> <Strong>' \
+                                                   '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + id_value + '" aria-expanded="false" aria-controls="' + id_value + '">' \
+          + display_value + \
+          '</a></Strong>' \
+          '</div>' + view_body + \
+          '</div>'
+
+    return ret

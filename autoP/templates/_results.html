@@ -5,11 +5,11 @@
 <p class="error"><strong>Error:</strong>{{ error }}</p>
 {% endif %}
 <br>
-<div class="row">
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     {% for result in results %}
-    <div class="col-md-12">
-        <p>{{result}}</p>
-    </div>
+
+        {{result|safe}}
+
     {% endfor %}
 </div>
 

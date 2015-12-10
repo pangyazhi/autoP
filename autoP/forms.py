@@ -15,9 +15,6 @@ class LoginForm(Form):
     submit = SubmitField('Log In')
 
 
-
-
-
 class RegistrationForm(Form):
     email = StringField('Email', validators={DataRequired(), Length(1, 64), Email()})
 
@@ -34,8 +31,6 @@ class RegistrationForm(Form):
 
     def generate_csrf_token(self, csrf_context):
         pass
-
-
 
 
 class SearchForm(Form):
