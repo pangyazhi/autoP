@@ -480,6 +480,8 @@ def view_helper(object):
                          '</u></span><br>'
             continue
         if not callable(value) and not key.startswith('_'):
+            if value is None:
+                value = ''
             view_body += '<span><strong>' + key + '&nbsp;</strong>' + str(value) + '</span><br>'
 
     view_body += '</div></div>'
