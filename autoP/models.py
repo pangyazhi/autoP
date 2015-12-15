@@ -47,9 +47,11 @@ class Role(Document):
     permissions = ListField(StringField(choices=ALL_PERMISSIONS))
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    avatar = FileField()
+    deleted = BooleanField(default=False)
     display = 'name'
-    no_view = {'name'}
-    no_edit = {'created_at', 'update_at'}
+    no_view = {'name', 'deleted', 'id'}
+    no_edit = {'created_at', 'update_at', 'id'}
 
     def get_related_actions(self, user):
         return Task.get(user, 'Edit Role', 'Delete Role')
@@ -57,9 +59,9 @@ class Role(Document):
 
     @staticmethod
     def regex_search(query_string):
-        return Role.objects(Q(name__icontains=query_string) or
+        return Role.objects((Q(name__icontains=query_string) or
                             Q(description__icontians=query_string) or
-                            Q(permissions__S__icontains=query_string))
+                            Q(permissions__S__icontains=query_string)) and Q(deleted=False))
 
     @staticmethod
     def get(name):
@@ -106,9 +108,11 @@ class User(UserMixin, Document):
     authenticated = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    avatar = FileField()
+    deleted = BooleanField(default=False)
     display = 'email'
-    no_view = {'password', 'password_hash', 'authenticated', 'email'}
-    no_edit = {'created_at', 'update_at'}
+    no_view = {'password', 'password_hash', 'authenticated', 'email', 'deleted'}
+    no_edit = {'created_at', 'update_at', 'id'}
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -181,6 +185,8 @@ class UiObject(Document):
     xpath = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    avatar = FileField()
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -200,6 +206,7 @@ class Computer(Document):
     status = StringField(required=True)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -217,6 +224,7 @@ class Variable(Document):
     description = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -238,6 +246,7 @@ class Environment(Document):
     dbServer = ReferenceField(Computer, required=True)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -260,6 +269,7 @@ class TestActivity(Document):
     enabled = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -279,6 +289,7 @@ class Instance(Document):
     variables = ListField(Variable)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -289,6 +300,22 @@ class Instance(Document):
                                 Q(description__icontians=query_string),
                                 Q(status__icontians=query_string))
 
+    steps = []
+    results = []
+
+    def add_step(self, step):
+        self.steps.append(step)
+
+    def get_step(self):
+        if self.steps.count() == 0:
+            return None
+        step = self.steps.pop(0)
+        self.steps.remove(0)
+        return step
+
+    def add_result(self, result):
+        self.results.append(result)
+
 
 class DataObject(Document):
     name = StringField(required=True)
@@ -296,6 +323,7 @@ class DataObject(Document):
     data = ListField(Variable)
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -315,6 +343,7 @@ class Result(Document):
     stopped_at = DateTimeField(default=datetime.datetime.now())
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -337,6 +366,7 @@ class StepResult(Document):
     snapshot = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    deleted = BooleanField(default=False)
 
 
 class Task(Document):
@@ -346,6 +376,8 @@ class Task(Document):
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
     required_role = ListField(Role)
+    avatar = FileField()
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
@@ -377,6 +409,8 @@ class TaskGroup(Document):
     description = StringField()
     created_at = DateTimeField(default=datetime.datetime.now(), required=True)
     updated_at = DateTimeField(default=datetime.datetime.now(), required=True)
+    avatar = FileField()
+    deleted = BooleanField(default=False)
     display = 'name'
     no_view = {'name'}
     no_edit = {'created_at', 'update_at'}
