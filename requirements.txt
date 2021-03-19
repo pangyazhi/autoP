@@ -4,7 +4,7 @@ wtforms
 rom
 Flask==0.10.1
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.11.3
 MarkupSafe==0.23
 plac==0.9.1
 redis==2.10.3
